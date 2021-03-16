@@ -26,6 +26,7 @@ PUT /products
 ```
 
 Malgré des paramètres douteux de création d'index, cela semble fonctionner :
+
 ![alt text](https://i.ibb.co/ngn1wH0/009-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
 ###### Quizz: 
