@@ -89,7 +89,7 @@ A compléter...
 ```
 GET /_cat/indices?v
 ```
-**WARN : pas sûr que ce soit nécessaire !!**
+
 ![alt text](https://i.ibb.co/cht4SX4/007-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
 ###### Quizz
