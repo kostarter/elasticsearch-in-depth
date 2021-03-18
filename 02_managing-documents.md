@@ -1,6 +1,6 @@
 #### 1. Création et Suppression d'index
 
-###### Suppression d'un index
+##### Suppression d'un index
 
 ```
 DELETE /pages
@@ -8,12 +8,12 @@ DELETE /pages
 
 Remarqez que l'état du cluster est redevenu vert. Il n'y a plus aucun shard non assigné.
 
-###### Quizz
+##### Quizz
 - Ecrivez une requête pour vérifier le contenu de l'index "pages"
 - Quel est le résultat de cette requête ?
 - Peut-on récupérer les données contenues précédemment dans l'index ?
 
-###### Creation d'un index avec paramètres
+##### Creation d'un index avec paramètres
 
 ```
 PUT /products
@@ -29,13 +29,13 @@ Malgré des paramètres douteux de création d'index, cela semble fonctionner :
 
 ![alt text](https://i.ibb.co/ngn1wH0/009-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
-###### Quizz: 
+##### Quizz: 
 - Que pensez-vous de la réplication dans le contexte actuel ?
 - A-t-elle un sens ? Pourquoi ?
 
 #### 2. Indexer des documents
 
-###### Indexer un document un identifiant auto-generé
+##### Indexer un document un identifiant auto-generé
 
 ```
 POST /products/_doc
@@ -50,7 +50,7 @@ En retour Elasticsearch renvoie l'identifiant généré :
 
 ![alt text](https://i.ibb.co/5B0Xmt0/010-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
-###### Indexer un document en spécifiant l'identifiant
+##### Indexer un document en spécifiant l'identifiant
 
 ```
 PUT /products/_doc/100
@@ -61,7 +61,7 @@ PUT /products/_doc/100
 }
 ```
 
-###### Quizz: 
+##### Quizz: 
 
 - Listez les avantages de chaque méthode.
 
@@ -77,7 +77,7 @@ Nous retrouvons notre produit avec le nom de l'index et le type de l'objet retro
 
 #### 4. Modifier des documents
 
-###### Modifier un champ existant
+##### Modifier un champ existant
 
 Maintenant que nous avons quelques produits dans notre index "products", nous allons modifié les champs de certains produits.<br/>
 Modifier le stock du produit d'on l'identifiant est 100 :
@@ -105,7 +105,7 @@ Donc ce que fait l'update c'est de :
 * Stocker les données dans un nouveau document en incrémentant le numéro de version.
 * Réplique la modication sur tous les shards.
 
-###### Ajouter un nouveau champ
+##### Ajouter un nouveau champ
 
 _Oui, la syntaxe de la requête est la même. Merci le semi-structuré. ;-)_
 
@@ -139,7 +139,7 @@ Le numéro de version a encore changé, c'est plutôt une bonne nouvelle :
 
 Ca marche !
 
-###### Assigner une valeur arbitraire à `in_stock`
+##### Assigner une valeur arbitraire à `in_stock`
 
 Nous avons reçu du stock :
 ```
@@ -151,7 +151,7 @@ POST /products/_update/100
 }
 ```
 
-###### Utiliser une valeur passé en paramètre
+##### Utiliser une valeur passé en paramètre
 
 ```
 POST /products/_update/100
@@ -179,7 +179,7 @@ L'eereur est très explicite :
         "ctx._source.in_stock -= params.quantite",
         "                              ^---- HERE"
 ```
-###### Utiliser l'opérateur `noop` sur critère conditionnel
+##### Utiliser l'opérateur `noop` sur critère conditionnel
 
 L'opérateur `noop` permet de dire à Elasticsearch d'ignorer le document à modifier. Ici nous allons lui demander d'ignorer l'opération de mise à jour dans le ou stock est à 0 en assignant la valeur `noop` au champs `op` de la variable qui reprèsente le contexte.<br/>
 Avant de lancer la prochaine requête n'oubliez pas de mettre le stock à un pour ce produit.
@@ -215,7 +215,7 @@ Autre question : Quelle différence entre les deux requêtes ci-dessous :
 
 TODO : Compléter la réponse.
 
-###### Mettre à jour un champ après test conditionnel
+##### Mettre à jour un champ après test conditionnel
 
 Remettons le stock à 10 pour le document à modifier et lancer la requête suivante :
 ```
@@ -233,7 +233,7 @@ POST /products/_update/100
 
 Vérifier que le champ `result` est bien à `updated`.
 
-###### Changement d'opération
+##### Changement d'opération
 
 Au lieu de mettre à jour la valeur du champ `stock`, nous voulons dans certains cas supprimer le document. Pour cela il faut changer l'opération qui est en train d'être exécutée dans le script.<br/>
 Par exemple supprimer un produit dont le stock est inférieur 0. N'oubliez pas de mettre stock à -1 par exemple.
@@ -349,12 +349,12 @@ Mais cette approche a été deprécié car elle ne couvre pas tous les cas.
 
 ![alt text](https://i.ibb.co/xJy7LV4/021-Screenshot-from-2021-03-16-19-04-50.png "Learning Elasticsearch")
 
-###### Retrouver un document et vérifier que le primary term et le sequence number sont présents
+##### Retrouver un document et vérifier que le primary term et le sequence number sont présents
 ```
 GET /products/_doc/100
 ```
 
-###### Modifier le champ `in_stock` seulement si le document n'a pas été mis à jour entre temps
+##### Modifier le champ `in_stock` seulement si le document n'a pas été mis à jour entre temps
 Utiliser les valeurs retrouvées lors du précendent GET :
 ```
 POST /products/_update/100?if_primary_term=xxx&if_seq_no=xxx
@@ -385,7 +385,7 @@ C'est la première fois qu'on se félicitera d'avoir une erreur. ;)
 
 Similaire à une requête UPDATE avec une clause WHERE en relationnel. 
 
-###### Modifier des documents correspondant aux critères d'une requête
+##### Modifier des documents correspondant aux critères d'une requête
 
 Pour cela il faut appeler l'API `_update_by_query`.<br/>
 Il est possible de remplacer la query `match_all` par n'importe quelle autre query.
@@ -412,7 +412,7 @@ Pour vérifier les résultats, appeler l'API `_search` sans aucun critère pour 
 GET /products/_search
 ```
 
-###### Ignorer les conflicts de versions
+##### Ignorer les conflicts de versions
 
 L'attribut `conflicts` doit être rajouter aux paramètres de la requête, ou `?conflicts=proceed`.<br/>
 Cela permet de remonter le nombre de conflits de version sans que la requête ne plante.
@@ -434,7 +434,7 @@ POST /products/_update_by_query
 
 Similaire à une requête DELETE avec une clause WHERE en relationnel. 
 
-###### Supprimer des documents correspondant aux critères d'une requête
+##### Supprimer des documents correspondant aux critères d'une requête
 
 Suppression de tous les produits stockés dans l'index, la requête est très similaire à celle du `_update_by_query` :
 ```
@@ -448,7 +448,7 @@ POST /products/_delete_by_query
 
 ![alt text](https://i.ibb.co/mcHVgC2/025-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
-###### Ignorer les conflicts de versions
+##### Ignorer les conflicts de versions
 
 Comme pour le `update_by_query`, l'attribut `conflicts` doit être rajouter aux paramètres de la requête, ou `?conflicts=proceed`.<br/>
 Cela permet de remonter le nombre de conflits de version sans que la requête ne plante.
@@ -480,7 +480,7 @@ optional_source\n
 
 ```
 
-###### Indexer des documents
+##### Indexer des documents
 Le nom de l'index n'est pas spécifié dans le path de la requête, mais dans les lignes `action_and_meta_data` :
 ```
 POST /_bulk
@@ -494,7 +494,7 @@ La différence est que le `create` plante si un document existe déjà avec le m
 
 ![alt text](https://i.ibb.co/hymTQwQ/026-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
-###### Modifier et supprimer des documents
+##### Modifier et supprimer des documents
 Le type d'opération est spécifié dans les lignes `action_and_meta_data` :
 ```
 POST /_bulk
@@ -503,7 +503,7 @@ POST /_bulk
 { "delete": { "_index": "products", "_id": 200 } }
 ```
 
-###### Spécifier le nom de l'index dans le path de la requête
+##### Spécifier le nom de l'index dans le path de la requête
 Cela peut être pratique si on veut charger le même fichier sur des index avec des noms différents :
 ```
 POST /products/_bulk
@@ -512,7 +512,7 @@ POST /products/_bulk
 { "delete": { "_id": 200 } }
 ```
 
-###### Vérifier le résultat du bulk
+##### Vérifier le résultat du bulk
 ```
 GET /products/_search
 {
@@ -531,7 +531,7 @@ Rappel :
 * L'API Bulk renvoie un rapport détaillé pour toutes les actions.
 * L'API Bulk est plus efficace que l'envoi de plusieurs actions individuelles (réduction de traffic réseau).
 
-###### Naviguer vers le dossier ou se trouve le fichier bulk
+##### Naviguer vers le dossier ou se trouve le fichier bulk
 
 ```
 $ cd /path/to/data/file/directory
@@ -539,7 +539,7 @@ $ cd /path/to/data/file/directory
 
 A noter que le nom de l'index n'est pas défini dans le fichier bulk, il faudra le spécifier dans le path de la requête HTTP.
 
-###### Importer les données dans le cluster local
+##### Importer les données dans le cluster local
 
 ```
 $ curl -H "Content-Type: application/x-ndjson" -XPOST http://localhost:9200/products/_bulk --data-binary "@products-bulk.json"
@@ -553,7 +553,7 @@ GET /products/_count
 
 ![alt text](https://i.ibb.co/Jnv6G5q/027-Screenshot-2021-03-16-Elastic-Kibana.png "Learning Elasticsearch")
 
-###### Importer les données dans le cluster sur le cloud
+##### Importer les données dans le cluster sur le cloud
 ```
 $ curl -H "Content-Type: application/x-ndjson" -XPOST -u username:password https://elastic-cloud-endpoint.com:9243/product/_bulk --data-binary "@products-bulk.json"
 ```
