@@ -186,7 +186,7 @@ Toujours le même résultat.
 
 Gestion des arrondis par mois en finction de l'opérateur :
 
-![alt text](https://us-ivry-natation.club/wp-content/uploads/2019/12/warning-icon-png-2753-150x150.png "Learning Elasticsearch")
+![alt text](https://i.ibb.co/31g52nb/Screenshot-from-2021-03-18-13-17-20.png "Learning Elasticsearch")
 
 ##### Arrondir par mois avant de retrancher un an à partir du `2010/01/01`
 
