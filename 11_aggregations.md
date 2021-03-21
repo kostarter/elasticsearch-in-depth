@@ -1,5 +1,7 @@
 #### 1. Introduction aux aggregations
 
+![alt text](https://i.ibb.co/FBzYCc5/01-Screenshot-from-2021-03-21-20-15-42.png "Learning Elasticsearch")
+
 ##### Ajouter l'index `order` et son mapping
 
 ```
@@ -61,6 +63,8 @@ GET /order/_count
 ```
 
 #### 2. Introduction à l'aggregations de buckets
+
+![alt text](https://i.ibb.co/3fQVxst/02-Screenshot-from-2021-03-21-20-18-46.png "Learning Elasticsearch")
 
 ##### Creation d'un bucket pour chaque valeur de `status`
 
