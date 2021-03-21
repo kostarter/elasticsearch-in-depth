@@ -265,6 +265,8 @@ GET /product/_search
 
 #### 5. Ajouter des synonymes
 
+![alt text](https://i.ibb.co/yq5gBTV/01-Screenshot-from-2021-03-21-20-22-22.png "Learning Elasticsearch")
+
 ##### Creation d'un index avec un analyzer configuré
 
 ```
